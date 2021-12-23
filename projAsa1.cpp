@@ -5,17 +5,12 @@ using namespace std;
 
 //Function to count the number
 // of LIS in the array nums[]
-vector<int> findNumberOfLIS(vector<int> nums, int n)
+void findNumberOfLIS(vector<int> nums)
 {
-
-	vector<int> res;
+	int n = nums.size();
 	//Base Case
 	if (n == 0)
-		{
-			res.push_back(0);
-			res.push_back(0);
-			return res;
-		}
+		cout << 0 << ' ' << 0 << endl;
 
 	//Initialize dp_l array with
 	// 1s
@@ -29,18 +24,18 @@ vector<int> findNumberOfLIS(vector<int> nums, int n)
 	{
 		for (int j = 0; j < i; j++)
 		{
-		//If current element is
-		// smaller
-		if (nums[i] <= nums[j])
-			continue;
+			//If current element is
+			// smaller
+			if (nums[i] <= nums[j])
+				continue;
 
-		if (dp_l[j] + 1 > dp_l[i])
-		{
-			dp_l[i] = dp_l[j] + 1;
-			dp_c[i] = dp_c[j];
-		}
-		else if (dp_l[j] + 1 == dp_l[i])
-			dp_c[i] += dp_c[j];
+			if (dp_l[j] + 1 > dp_l[i])
+			{
+				dp_l[i] = dp_l[j] + 1;
+				dp_c[i] = dp_c[j];
+			}
+			else if (dp_l[j] + 1 == dp_l[i])
+				dp_c[i] += dp_c[j];
 		}
 	}
 
@@ -49,30 +44,29 @@ vector<int> findNumberOfLIS(vector<int> nums, int n)
 	int max_length = 0;
 
 	for (int i : dp_l)
-		max_length = max(i,max_length);
+		max_length = max(i, max_length);
 
 	//Stores the count of LIS
 	int count = 0;
 
 	//Traverse dp_l and dp_c
 	// simultaneously
-	for(int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		//Update the count
 		if (dp_l[i] == max_length)
 			count += dp_c[i];
 	}
 
-	res.push_back(max_length);
-	res.push_back(count);
-	//Return the count of LIS
-	return res;
+	cout << max_length << ' ' << count << endl;
 }
 
 // Returns the length and the LCIS of two
 // arrays arr1[0..n-1] and arr2[0..m-1]
-int LCIS(vector<int> arr1, int n, vector<int> arr2, int m)
+void LCIS(vector<int> arr1, vector<int> arr2)
 {
+	int n = arr1.size();
+	int m = arr2.size();
 	// table[j] is going to store length of LCIS
 	// ending with arr2[j]. We initialize it as 0,
 	int table[m];
@@ -106,65 +100,50 @@ int LCIS(vector<int> arr1, int n, vector<int> arr2, int m)
 
 	// The maximum value in table[] is out result
 	int res = 0;
-	for (int i=0; i<m; i++){
+	for (int i = 0; i < m; i++)
+	{
 		if (table[i] > res)
-		    res = table[i];
-        }
+			res = table[i];
+	}
 
-	return res;
+	cout << res << endl;
+}
+
+vector<int> inputAux(string input)
+{
+	vector<int> substring;
+	char blank = ' ';
+	for (auto i : input)
+		if (i != blank)
+			substring.push_back(((int)i) - ((int)'0'));
+	return substring;
 }
 
 int main()
 {
 	string problem;
 	string subsequence1;
-	string subsequence2;
 	vector<int> s1;
-	vector<int> s2;
-	int size1 = 0;
-	int size2 = 0;
-	
-	char blank = ' ';
-	vector<int> res1;
-	int res2 = 0;
 
 	cin >> problem;
-	if (problem.compare("1") == 0) 
+	if (problem.compare("1") == 0)
 	{
-		int size1 = 0;
 		cin.ignore();
 		getline(cin, subsequence1);
-		for(int i = 0; i < (int)subsequence1.length(); i++) {
-			if (subsequence1[i] != blank) {
-				s1.push_back(((int)subsequence1[i]) - ((int)'0'));
-				size1++;
-			}
-		}
-		res1 = findNumberOfLIS(s1, size1);
-		cout << res1[0] << ' ' << res1[1] << endl;
+		findNumberOfLIS(inputAux(subsequence1));
 	}
 
-	else if (problem.compare("2") == 0) 
+	else if (problem.compare("2") == 0)
 	{
+		string subsequence2;
+		vector<int> s2;
 		cin.ignore();
 		getline(cin, subsequence1);
-		for(int i = 0; i < (int)subsequence1.length(); i++) {
-			if (subsequence1[i] != blank) {
-				s1.push_back(((int)subsequence1[i]) - ((int)'0'));
-				size1++;
-			}
-		}
-
+		s1 = inputAux(subsequence1);
 		getline(cin, subsequence2);
-		for(int i = 0; i < (int)subsequence2.length(); i++) {
-			if (subsequence2[i] != blank) {
-				s2.push_back(((int)subsequence2[i]) - ((int)'0'));
-				size2++;
-			}
-		}
+		s2 = inputAux(subsequence2);
 
-		res2 = LCIS(s1, size1, s2, size2);
-		cout << res2 << endl;
+		LCIS(inputAux(subsequence1), inputAux(subsequence2));
 	}
 
 	return 0;
