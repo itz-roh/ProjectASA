@@ -1,91 +1,84 @@
-// C++ program for the
-// above approach
 #include <bits/stdc++.h>
 using namespace std;
 
-//Function to count the number
+// Function to n_subsequences the number
 // of LIS in the array nums[]
 void findNumberOfLIS(vector<int> nums)
 {
-	int n = nums.size();
-	//Base Case
-	if (n == 0)
+	int size = nums.size();
+	// Base Case
+	if (size == 0)
 		cout << 0 << ' ' << 0 << endl;
 
-	//Initialize dp_l array with
-	// 1s
-	vector<int> dp_l(n, 1);
+	// Initialize all sub_lengths's indeces with 1s
+	vector<int> sub_lengths(size, 1);
 
-	//Initialize dp_c array with
-	// 1s
-	vector<int> dp_c(n, 1);
+	// Initialize all n_subs' indeces with 1s
+	vector<int> n_subs(size, 1);
 
-	for (int i = 0; i < n; i++)
+	int max_length = 0;
+
+	int n_subsequences = 0;
+
+	for (int i = 0 ; i < size; i++)
 	{
 		for (int j = 0; j < i; j++)
 		{
-			//If current element is
-			// smaller
+			// If current element is smaller or equal than the next element
+			// then we won't have an increasing subsequence
 			if (nums[i] <= nums[j])
 				continue;
 
-			if (dp_l[j] + 1 > dp_l[i])
+			if (sub_lengths[j] + 1 > sub_lengths[i])
 			{
-				dp_l[i] = dp_l[j] + 1;
-				dp_c[i] = dp_c[j];
+				sub_lengths[i] = sub_lengths[j] + 1;
+				n_subs[i] = n_subs[j];
 			}
-			else if (dp_l[j] + 1 == dp_l[i])
-				dp_c[i] += dp_c[j];
+			else if (sub_lengths[j] + 1 == sub_lengths[i])
+				n_subs[i] += n_subs[j];
 		}
 	}
-
-	//Store the maximum element
-	// from dp_l
-	int max_length = 0;
-
-	for (int i : dp_l)
+	// Update the max_length
+	for (int i : sub_lengths)
 		max_length = max(i, max_length);
 
-	//Stores the count of LIS
-	int count = 0;
-
-	//Traverse dp_l and dp_c
+	// Traverse sub_lengths and n_subs
 	// simultaneously
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < size; i++)
 	{
-		//Update the count
-		if (dp_l[i] == max_length)
-			count += dp_c[i];
+		// Update the n_subsequences
+		if (sub_lengths[i] == max_length)
+			n_subsequences += n_subs[i];
 	}
 
-	cout << max_length << ' ' << count << endl;
+	cout << max_length << ' ' << n_subsequences << endl;
 }
 
-// Returns the length and the LCIS of two
-// arrays arr1[0..n-1] and arr2[0..m-1]
+//  Returns the length and the LCIS of two
+//  arrays arr1[0..n-1] and arr2[0..m-1]
 void LCIS(vector<int> arr1, vector<int> arr2)
 {
 	int n = arr1.size();
 	int m = arr2.size();
-	// table[j] is going to store length of LCIS
-	// ending with arr2[j]. We initialize it as 0,
+	//  table[j] is going to store length of LCIS
+	//  ending with arr2[j]. We initialize it as 0,
 	int table[m];
 
 	for (int j = 0; j < m; j++)
 		table[j] = 0;
 
-	// Traverse all elements of arr1[]
+	//  Traverse all elements of arr1[]
 	for (int i = 0; i < n; i++)
 	{
-		// Initialize current length of LCIS
+		//  Initialize current length of LCIS
 		int current = 0;
 
-		// For each element of arr1[], traverse all
-		// elements of arr2[].
+		//  For each element of arr1[], traverse all
+		//  elements of arr2[].
 		for (int j = 0; j < m; j++)
 		{
-			// If both the array have same elements.
-			// Note that we don't break the loop here.
+			//  If both the array have same elements.
+			//  Note that we don't break the loop here.
 			if (arr1[i] == arr2[j])
 				if (current + 1 > table[j])
 					table[j] = current + 1;
@@ -98,7 +91,7 @@ void LCIS(vector<int> arr1, vector<int> arr2)
 		}
 	}
 
-	// The maximum value in table[] is out result
+	//  The maximum value in table[] is out result
 	int res = 0;
 	for (int i = 0; i < m; i++)
 	{
