@@ -58,24 +58,24 @@ void findNumberOfLIS(vector<int> nums)
 //  arrays arr1[0..n-1] and arr2[0..m-1]
 void LCIS(vector<int> arr1, vector<int> arr2)
 {
-	int n = arr1.size();
-	int m = arr2.size();
+	int size1 = arr1.size();
+	int size2 = arr2.size();
 	//  table[j] is going to store length of LCIS
 	//  ending with arr2[j]. We initialize it as 0,
-	int table[m];
+	int table[size2];
 
-	for (int j = 0; j < m; j++)
+	for (int j = 0; j < size2; j++)
 		table[j] = 0;
 
 	//  Traverse all elements of arr1[]
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < size1; i++)
 	{
 		//  Initialize current length of LCIS
 		int current = 0;
 
 		//  For each element of arr1[], traverse all
 		//  elements of arr2[].
-		for (int j = 0; j < m; j++)
+		for (int j = 0; j < size2; j++)
 		{
 			//  If both the array have same elements.
 			//  Note that we don't break the loop here.
@@ -93,10 +93,10 @@ void LCIS(vector<int> arr1, vector<int> arr2)
 
 	//  The maximum value in table[] is out result
 	int res = 0;
-	for (int i = 0; i < m; i++)
+	for (auto i : table)
 	{
-		if (table[i] > res)
-			res = table[i];
+		if (i > res)
+			res = i;
 	}
 
 	cout << res << endl;
