@@ -105,15 +105,15 @@ void LCIS(vector<int> arr1, vector<int> arr2)
 vector<int> inputAux(string input)
 {
 	vector<int> substring;
-	char blank = ' ';
+	input += ' ';
 	int aux = 0;
 	for (auto i : input)
-		if (i == blank) {
+		if (i == ' ') {
 			substring.push_back(aux);
 			aux = 0;
 		}
 		else
-			aux = aux*10 + i;
+			aux = aux*10 + ((int)i) - ((int)'0');
 	return substring;
 }
 
