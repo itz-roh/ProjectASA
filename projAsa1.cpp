@@ -106,9 +106,14 @@ vector<int> inputAux(string input)
 {
 	vector<int> substring;
 	char blank = ' ';
+	int aux = 0;
 	for (auto i : input)
-		if (i != blank)
-			substring.push_back(((int)i) - ((int)'0'));
+		if (i == blank) {
+			substring.push_back(aux);
+			aux = 0;
+		}
+		else
+			aux = aux*10 + i;
 	return substring;
 }
 
@@ -125,7 +130,6 @@ int main()
 		getline(cin, subsequence1);
 		findNumberOfLIS(inputAux(subsequence1));
 	}
-
 	else if (problem.compare("2") == 0)
 	{
 		string subsequence2;
@@ -138,6 +142,5 @@ int main()
 
 		LCIS(inputAux(subsequence1), inputAux(subsequence2));
 	}
-
 	return 0;
 }
