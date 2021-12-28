@@ -1,19 +1,19 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <string>
+#include <iostream>
+
 using namespace std;
 
-// Function to n_subsequences the number
-// of LIS in the array nums[]
-void findNumberOfLIS(vector<int> nums)
+int findNumberOfLIS(vector<int> array)
 {
-	int size = nums.size();
-	// Base Case
-	if (size == 0)
+	int size = array.size();
+	if (size == 0){
 		cout << 0 << ' ' << 0 << endl;
-
-	// Initialize all sub_lengths's indeces with 1s
+		return 0;
+	}
+	
 	vector<int> sub_lengths(size, 1);
 
-	// Initialize all n_subs' indeces with 1s
 	vector<int> n_subs(size, 1);
 
 	int max_length = 0;
@@ -24,74 +24,52 @@ void findNumberOfLIS(vector<int> nums)
 	{
 		for (int j = 0; j < i; j++)
 		{
-			// If current element is smaller or equal than the next element
-			// then we won't have an increasing subsequence
-			if (nums[i] <= nums[j])
-				continue;
-
-			if (sub_lengths[j] + 1 > sub_lengths[i])
+			if (array[i] > array[j])
 			{
-				sub_lengths[i] = sub_lengths[j] + 1;
-				n_subs[i] = n_subs[j];
+				if (sub_lengths[j] + 1 > sub_lengths[i])
+				{
+					sub_lengths[i] = sub_lengths[j] + 1;
+					n_subs[i] = n_subs[j];
+				}
+				else if (sub_lengths[j] + 1 == sub_lengths[i])
+					n_subs[i] += n_subs[j];
 			}
-			else if (sub_lengths[j] + 1 == sub_lengths[i])
-				n_subs[i] += n_subs[j];
 		}
 	}
-	// Update the max_length
-	for (int i : sub_lengths)
+	for (auto i : sub_lengths)
 		max_length = max(i, max_length);
 
-	// Traverse sub_lengths and n_subs
-	// simultaneously
 	for (int i = 0; i < size; i++)
 	{
-		// Update the n_subsequences
 		if (sub_lengths[i] == max_length)
 			n_subsequences += n_subs[i];
 	}
 
 	cout << max_length << ' ' << n_subsequences << endl;
+	return 0;
 }
 
-//  Returns the length and the LCIS of two
-//  arrays arr1[0..n-1] and arr2[0..m-1]
 void LCIS(vector<int> arr1, vector<int> arr2)
 {
 	int size1 = arr1.size();
 	int size2 = arr2.size();
-	//  table[j] is going to store length of LCIS
-	//  ending with arr2[j]. We initialize it as 0,
-	int table[size2];
+	int table[size2] = {0};
 
-	for (int j = 0; j < size2; j++)
-		table[j] = 0;
-
-	//  Traverse all elements of arr1[]
 	for (int i = 0; i < size1; i++)
 	{
-		//  Initialize current length of LCIS
 		int current = 0;
 
-		//  For each element of arr1[], traverse all
-		//  elements of arr2[].
 		for (int j = 0; j < size2; j++)
 		{
-			//  If both the array have same elements.
-			//  Note that we don't break the loop here.
-			if (arr1[i] == arr2[j])
-				if (current + 1 > table[j])
-					table[j] = current + 1;
 
-			/* Now seek for previous smaller common
-			element for current element of arr1 */
-			if (arr1[i] > arr2[j])
-				if (table[j] > current)
-					current = table[j];
+			if (arr1[i] == arr2[j] && current + 1 > table[j])
+				table[j] = current + 1;
+
+			if (arr1[i] > arr2[j] && table[j] > current)
+				current = table[j];
 		}
 	}
 
-	//  The maximum value in table[] is out result
 	int res = 0;
 	for (auto i : table)
 	{
@@ -105,15 +83,18 @@ void LCIS(vector<int> arr1, vector<int> arr2)
 vector<int> inputAux(string input)
 {
 	vector<int> substring;
-	input += ' ';
 	int aux = 0;
-	for (auto i : input)
+	for (auto i : input){
+		
 		if (i == ' ') {
 			substring.push_back(aux);
 			aux = 0;
 		}
 		else
 			aux = aux*10 + ((int)i) - ((int)'0');
+	}
+	substring.push_back(aux);
+	
 	return substring;
 }
 
