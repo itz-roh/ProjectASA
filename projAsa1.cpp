@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int findNumberOfLIS(vector<int> array)
+int problem1(vector<int> array)
 {
 	int size = array.size();
 	if (size == 0){
@@ -49,7 +49,7 @@ int findNumberOfLIS(vector<int> array)
 	return 0;
 }
 
-void LCIS(vector<int> arr1, vector<int> arr2)
+void problem2(vector<int> arr1, vector<int> arr2)
 {
 	int size1 = arr1.size();
 	int size2 = arr2.size();
@@ -109,7 +109,7 @@ int main()
 	{
 		cin.ignore();
 		getline(cin, subsequence1);
-		findNumberOfLIS(inputAux(subsequence1));
+		problem1(inputAux(subsequence1));
 	}
 	else if (problem.compare("2") == 0)
 	{
@@ -121,7 +121,7 @@ int main()
 		getline(cin, subsequence2);
 		s2 = inputAux(subsequence2);
 
-		LCIS(inputAux(subsequence1), inputAux(subsequence2));
+		problem2(inputAux(subsequence1), inputAux(subsequence2));
 	}
 	return 0;
 }
