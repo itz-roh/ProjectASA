@@ -7,6 +7,7 @@ using namespace std;
 int problem1(vector<int> array)
 {
 	int size = array.size();
+
 	
 	vector<int> sub_lengths(size, 1);
 
