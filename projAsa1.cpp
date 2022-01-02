@@ -7,10 +7,6 @@ using namespace std;
 int problem1(vector<int> array)
 {
 	int size = array.size();
-	if (size == 0){
-		cout << 0 << ' ' << 0 << endl;
-		return 0;
-	}
 	
 	vector<int> sub_lengths(size, 1);
 
@@ -20,7 +16,7 @@ int problem1(vector<int> array)
 
 	int n_subsequences = 0;
 
-	for (int i = 0 ; i < size; i++)
+	for (int i = 1 ; i < size; i++)
 	{
 		for (int j = 0; j < i; j++)
 		{
@@ -54,6 +50,7 @@ void problem2(vector<int> arr1, vector<int> arr2)
 	int size1 = arr1.size();
 	int size2 = arr2.size();
 	int table[size2] = {0};
+	int res = 0;
 
 	for (int i = 0; i < size1; i++)
 	{
@@ -70,7 +67,6 @@ void problem2(vector<int> arr1, vector<int> arr2)
 		}
 	}
 
-	int res = 0;
 	for (auto i : table)
 	{
 		if (i > res)
@@ -94,7 +90,6 @@ vector<int> inputAux(string input)
 			aux = aux*10 + ((int)i) - ((int)'0');
 	}
 	substring.push_back(aux);
-	
 	return substring;
 }
 
