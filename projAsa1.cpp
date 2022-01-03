@@ -8,7 +8,6 @@ int problem1(vector<int> array)
 {
 	int size = array.size();
 
-	
 	vector<int> sub_lengths(size, 1);
 
 	vector<int> n_subs(size, 1);
@@ -21,16 +20,16 @@ int problem1(vector<int> array)
 	{
 		for (int j = 0; j < i; j++)
 		{
-			if (array[i] > array[j])
+			if (array[i] <= array[j])
+				continue;
+			
+			else if (sub_lengths[j] + 1 > sub_lengths[i])
 			{
-				if (sub_lengths[j] + 1 > sub_lengths[i])
-				{
-					sub_lengths[i] = sub_lengths[j] + 1;
-					n_subs[i] = n_subs[j];
-				}
-				else if (sub_lengths[j] + 1 == sub_lengths[i])
-					n_subs[i] += n_subs[j];
+				sub_lengths[i] = sub_lengths[j] + 1;
+				n_subs[i] = n_subs[j];
 			}
+			else if (sub_lengths[j] + 1 == sub_lengths[i])
+				n_subs[i] += n_subs[j];
 		}
 	}
 	for (auto i : sub_lengths)
@@ -59,11 +58,13 @@ void problem2(vector<int> arr1, vector<int> arr2)
 
 		for (int j = 0; j < size2; j++)
 		{
+			if(arr1[i] < arr2[j])
+				continue;
 
 			if (arr1[i] == arr2[j] && current + 1 > table[j])
 				table[j] = current + 1;
 
-			if (arr1[i] > arr2[j] && table[j] > current)
+			else if (arr1[i] > arr2[j] && table[j] > current)
 				current = table[j];
 		}
 	}
